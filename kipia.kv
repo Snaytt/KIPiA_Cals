@@ -1,0 +1,441 @@
+<kipia_cals>
+#Переменные:
+    #Переменные из экрана Шкала - сигнал
+    fiz_min: fiz_min
+    fiz_max: fiz_max
+    out_min: out_min
+    out_max: out_max
+    fiz_value: fiz_value
+    out_value: out_value
+    otv: otv
+    
+    #Переменные с экрана Контрольных точек
+    d_max: d_max
+    d_min: d_min
+    first_point: first_point
+    last_point: last_point
+    pnt_value: pnt_value
+    btn_pnt: btn_pnt
+    
+    #Переменные экрана с перевода давлений
+    pa: pa
+    kpa: kpa
+    mpa: mpa
+    kg: kg
+    bar: bar
+    psi: psi
+    atm: atm
+    mm_Hg: mm_Hg
+    mm_H_2_O: mm_H_2_O
+
+
+    MDNavigationLayout:
+
+        MDScreenManager:
+            id: screen_manager
+
+#Первый экран со всеми функциями программы
+            MDScreen:
+                name: "MainScreen"  
+                                    
+                MDFlatButton:
+                    text: "Шкала - сигнал"
+                    font_size: "22sp"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.86}
+                    size_hint_x: 0.90
+                    on_press:
+                        screen_manager.current="ScalesignalScreen"
+                        top_label.title = "Шкала - сигнал"
+
+                MDFlatButton:
+                    text: "Расчет точек"
+                    font_size: "22sp"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.78}
+                    size_hint_x: 0.90
+                    on_press: 
+                        screen_manager.current="PointScreen"
+                        top_label.title = "Расчет контрольных точке"
+                
+                MDFlatButton:
+                    text: "Перевод давлений"
+                    font_size: "22sp"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.70}
+                    size_hint_x: 0.90
+                    on_press: 
+                        screen_manager.current="PressureScreen"
+                        top_label.title = "Перевод давлений"
+
+#Второй экран расчет контрольных точек
+            MDScreen:
+                name: "PointScreen"  
+
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.85}
+                    text: "Диапазон:"
+                    font_style: "H6"
+                
+                MDTextField:
+                    id: d_min
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "Нижнее значение"
+                    halign: "center"
+                    pos_hint: {"center_x": .25, "center_y": 0.78}
+                    size_hint_x: 0.45
+                    text: "0"
+                    input_filter: "float"
+
+                MDTextField:
+                    id: d_max
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    hint_text: "Верхнее значение"
+                    pos_hint: {"center_x": .75, "center_y": 0.78}
+                    size_hint_x: 0.45
+                    text: "100"
+                    input_filter: "float"
+                
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.70}
+                    text: "Первая и последняя точка, %:"
+                    font_style: "H6"
+                
+                MDTextField:
+                    id: first_point
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "Первая точка"
+                    halign: "center"
+                    pos_hint: {"center_x": .25, "center_y": 0.62}
+                    size_hint_x: 0.45
+                    text: "0"
+                    input_filter: "float"
+
+                MDTextField:
+                    id: last_point
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    hint_text: "Последняя точка"
+                    pos_hint: {"center_x": .75, "center_y": 0.62}
+                    size_hint_x: 0.45
+                    text: "100"
+                    input_filter: "float"
+
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.26, "center_y": 0.54}
+                    text: "Колличество точек"
+                    font_style: "H6"
+                
+                MDTextField:
+                    id: pnt_value
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": .25, "center_y": 0.48}
+                    size_hint_x: 0.45
+                    text: "5"
+                    input_filter: "float"
+                
+                MDRaisedButton:
+                    id: btn_pnt
+                    text: "Расчитать"
+                    pos_hint: {"center_x": 0.75, "center_y": 0.50}
+                    size_hint_x: 0.2
+                    size_hint_y: 0.1
+                    on_press: root.pnt()                                                  
+
+#Третий экран с преобразования входной величины в выходной сигнал и наооборот 
+            
+            MDScreen:
+                name: "ScalesignalScreen"
+
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.85}
+                    text: "Диапазон входного сигнала:"
+                    font_style: "H6"
+                
+                MDTextField:
+                    id: fiz_min
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "Нижнее значение"
+                    halign: "center"
+                    pos_hint: {"center_x": .25, "center_y": 0.78}
+                    size_hint_x: 0.45
+                    text: "0"
+                    input_filter: "float"
+
+                MDTextField:
+                    id: fiz_max
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    hint_text: "Верхнее значение"
+                    pos_hint: {"center_x": .75, "center_y": 0.78}
+                    size_hint_x: 0.45
+                    text: "100"
+                    input_filter: "float"
+
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.70}
+                    text: "Диапазон выходного сигнала:"
+                    font_style: "H6"
+
+                MDTextField:
+                    id: out_min
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    hint_text: "Нижнее значение"
+                    pos_hint: {"center_x": .25, "center_y": 0.62}
+                    size_hint_x: 0.45
+                    text: "4"
+                    input_filter: "float"
+
+                MDTextField:
+                    id: out_max
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    hint_text: "Верхнее значение"
+                    pos_hint: {"center_x": .75, "center_y": 0.62}
+                    size_hint_x: 0.45
+                    text: "20"
+                    input_filter: "float"
+
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.53}
+                    text: "Входной сигнал"
+                    font_style: "H6"
+                    
+                MDTextField:
+                    id: fiz_value
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": .5, "center_y": 0.45}
+                    size_hint_x: 0.45
+                    text: "50"
+                    on_text_validate: root.fiz_in_inpt()
+                    input_filter: "float"
+                
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.37}
+                    text: "Выходной сигнал"
+                    font_style: "H6"
+                    
+                MDTextField:
+                    id: out_value
+                    font_size: "20sp"
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": .5, "center_y": 0.29}
+                    size_hint_x: 0.45
+                    text: "12"
+                    on_text_validate: root.inpt_in_fiz()
+                    input_filter: "float"
+            
+                MDLabel:
+                    id: otv
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.21}
+                    text: "              "
+                    font_style: "H6"
+
+#Четвертый экран перевод давлений
+            MDScreen:
+                name: "PressureScreen"  
+                
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.86}
+                    text: "Международная система СИ:"
+                    font_style: "H6"   
+
+                MDTextField:
+                    id: pa
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "Па"
+                    halign: "center"
+                    pos_hint: {"center_x": .25, "center_y": 0.79}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(1, pa.text)
+
+                MDTextField:
+                    id: kpa
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "кПа"
+                    halign: "center"
+                    pos_hint: {"center_x": .5, "center_y": 0.79}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(1000, kpa.text)
+
+                MDTextField:
+                    id: mpa
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "МПа"
+                    halign: "center"
+                    pos_hint: {"center_x": .75, "center_y": 0.79}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(1000000, mpa.text)
+
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.72}
+                    text: "Другие давления:"
+                    font_style: "H6"  
+                
+                MDTextField:
+                    id: kg
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "кгс/см2"
+                    halign: "center"
+                    pos_hint: {"center_x": .25, "center_y": 0.65}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(98066.5, kg.text)
+
+                MDTextField:
+                    id: bar
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "бар"
+                    halign: "center"
+                    pos_hint: {"center_x": .5, "center_y": 0.65}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(100000, bar.text)
+
+                MDTextField:
+                    id: psi
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "psi"
+                    halign: "center"
+                    pos_hint: {"center_x": .75, "center_y": 0.65}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(6894.76, psi.text)
+                
+                MDLabel:
+                    adaptive_size: True
+                    halign: "center"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.58}
+                    text: "Атмосферное давление:"
+                    font_style: "H6"  
+                
+                MDTextField:
+                    id: atm
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "Атм"
+                    halign: "center"
+                    pos_hint: {"center_x": .25, "center_y": 0.51}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(101325, atm.text)
+
+                MDTextField:
+                    id: mm_Hg
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "мм рт. ст."
+                    halign: "center"
+                    pos_hint: {"center_x": .5, "center_y": 0.51}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(133.32, mm_Hg.text)
+
+                MDTextField:
+                    id: mm_H_2_O
+                    font_size: "20sp"
+                    adaptive_size: True
+                    hint_text: "мм вод. ст."
+                    halign: "center"
+                    pos_hint: {"center_x": .75, "center_y": 0.51}
+                    size_hint_x: 0.2
+                    text: "0"
+                    input_filter: "float"
+                    on_text_validate: root.pressure(9.8, mm_H_2_O.text)
+
+                      
+        
+ #Находиться постоянно на экране
+        MDScreenManager:
+
+            MDScreen:
+                #Верхний заголовок
+                MDTopAppBar:
+                    id: top_label
+                    title: "Главное меню"
+                    pos_hint: {"top": 1}
+                    left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+#Боковое меню
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+
+            MDNavigationDrawerMenu:
+
+                MDNavigationDrawerHeader:
+                    title: "Калькулятор КИП и А"
+                    text: "Автор: Snayt"
+
+                MDNavigationDrawerDivider:
+
+                #Надпись ссылка
+                MDNavigationDrawerItem:
+                    text: "Шкала - сигнал"
+                    on_press: 
+                        screen_manager.current="ScalesignalScreen"
+                        top_label.title = "Шкала - сигнал"
+                        nav_drawer.set_state("close")
+                
+                MDNavigationDrawerItem:
+                    text: "Расчет точек"
+                    on_press: 
+                        screen_manager.current="PointScreen"
+                        nav_drawer.set_state("close")
+                        top_label.title = "Расчет точек"
+
+                MDNavigationDrawerItem:
+                    text: "Перевод давлений"
+                    on_press: 
+                        screen_manager.current="PressureScreen"
+                        nav_drawer.set_state("close")
+                        top_label.title = "Перевод давлений"
